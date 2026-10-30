@@ -1,0 +1,147 @@
+====================================================================
+ PHOSPHATE GRINDING MILL SYSTEM — FREE HOSTING (PythonAnywhere)
+ Step-by-step deploy guide. No technical knowledge needed.
+ Package: MillSystem-Hosting.zip
+====================================================================
+
+WHAT YOU GET
+------------
+The same mill system that runs on the factory PC, but on the internet:
+any phone / laptop can open it in Chrome with one web address (link),
+for example:  https://talhaphosphatemill.pythonanywhere.com
+The Owner / Manager / Client logins work exactly like the PC edition,
+and the data stays in ONE database on this hosting account.
+
+FIRST, THE HONEST FACTS ABOUT THE FREE PLAN
+-------------------------------------------
+1. FREE means the web app must be renewed every 3 months. It is one
+   click on the Web tab (button "Run until 3 months from today").
+   PythonAnywhere sends a reminder email before the date. If you miss
+   it, the site stops until you press that button — NO data is lost.
+2. If nobody opens the system for a while, the first page can take
+   10-30 seconds to wake up. After that it runs normally.
+3. When the hosting restarts the system (sometimes, silently), every
+   logged-in user is logged out and simply logs in again. Data is safe;
+   it is stored in a file (SQLite database), not in memory.
+4. Free accounts get a small fixed disk space (enough for many years
+   of mill records and backup ZIPs — they are small files).
+5. Free accounts may only call WHITELISTED outside websites. The
+   automatic WhatsApp API / SMS alerts inside the system may therefore
+   fail on the free plan (the system will show them as "failed" in the
+   alert log). The one-tap WhatsApp buttons (wa.me) always work,
+   because they open on YOUR phone. Genuine fix = paid plan later.
+6. The fingerprint (biometric) machine CANNOT push punches to this
+   online copy — live device pairing only works on the factory PC on
+   the local network. Online, use the biometric CSV import inside the
+   system, or mark attendance by hand.
+7. The "choose folder" picker button in the setup screen also only
+   works on a PC. Online you TYPE the folder path (step 9 gives it).
+
+WHAT YOU NEED BEFORE STARTING
+-----------------------------
+- An email inbox you can open (a confirmation email will arrive).
+- A username — IMPORTANT: the username becomes the web address.
+  Pick one of these (or similar), small letters, no spaces:
+      talhaphosphatemill   ->  talhaphosphatemill.pythonanywhere.com
+      talhamill            ->  talhamill.pythonanywhere.com
+      talhagrindingmill    ->  talhagrindingmill.pythonanywhere.com
+  If the name is taken, the site will say so — just try the next one.
+- A new password for PythonAnywhere (Talha sets this himself on the
+  signup page; it is NOT the same as any other password).
+
+--------------------------------------------------------------------
+ PART 1 — CREATE THE FREE ACCOUNT
+--------------------------------------------------------------------
+1. Open:  https://www.pythonanywhere.com
+2. Click "Pricing & signup", then choose the FREE "Beginner" plan
+   ("Create a Beginner account").
+3. Fill: username (see above), your email, and a new password.
+   Tick the terms box and create the account.
+4. Open the confirmation email and click its link. Done — you are
+   logged in to the PythonAnywhere dashboard.
+
+--------------------------------------------------------------------
+ PART 2 — UPLOAD THE SYSTEM FILES
+--------------------------------------------------------------------
+5. In PythonAnywhere, open the "Files" tab.
+6. Click "Upload a file" and upload  MillSystem-Hosting.zip
+7. Find the uploaded ZIP in the file list and click it. If it opens a
+   page of strange text, that is fine — close it.
+8. Open a console:  "Consoles" tab -> "Bash". Type these two lines,
+   pressing Enter after each (replace YOURUSERNAME if asked):
+
+       mkdir -p ~/mill ~/MillData
+       cd ~/mill && unzip -o ~/MillSystem-Hosting.zip
+
+   You should now see these files inside the folder "mill":
+       app.py   wsgi_adapter.py   pythonanywhere_wsgi.py
+       static/  (a folder)        DEPLOY-STEPS.txt
+
+--------------------------------------------------------------------
+ PART 3 — CREATE THE WEB APP
+--------------------------------------------------------------------
+ 9. Open the "Web" tab and click "Add a new web app".
+10. Domain: leave the free one shown (YOURUSERNAME.pythonanywhere.com)
+    and click Next.
+11. Select "Manual configuration" (NOT Flask, NOT Django), click Next.
+12. Python version: pick the newest Python 3.x shown (e.g. 3.10 or
+    higher), click Next, then Next/Finish on the last screen.
+
+--------------------------------------------------------------------
+ PART 4 — CONNECT THE WSGI FILE
+--------------------------------------------------------------------
+13. Stay on the "Web" tab. In the "Code" section, click the link
+    "WSGI configuration file" (path like
+    /var/www/YOURUSERNAME_pythonanywhere_com_wsgi.py).
+14. Select ALL the text in that editor and delete it.
+15. Go back to the "Files" tab, open the "mill" folder, click
+    pythonanywhere_wsgi.py to view it, copy ALL of its text, and paste
+    it into the WSGI editor from step 13.
+16. In the pasted text, find the line with  YOURUSERNAME  and replace
+    it with your real username (it appears inside
+    PROJECT_HOME = "/home/YOURUSERNAME/mill").
+    Save with the Save button (top right).
+17. Back on the "Web" tab, tick "Force HTTPS" if shown, then click
+    the big green "Reload" button.
+
+--------------------------------------------------------------------
+ PART 5 — FIRST OPEN + OWNER SETUP
+--------------------------------------------------------------------
+18. Click your site address at the top of the Web tab, e.g.
+        https://YOURUSERNAME.pythonanywhere.com
+    The mill system opens. (First open can be slow — see fact #2.)
+19. It will show the one-time setup screen. Fill it like this:
+      - Data folder: TYPE this exact path (do NOT use the picker):
+            /home/YOURUSERNAME/MillData
+        (with your real username in place of YOURUSERNAME)
+      - Owner username: e.g.  owner
+      - Owner password: choose a strong one and note it safely.
+      - Mill name / phone / address: your mill's details.
+    Press the setup button once. The database is created inside
+    MillData, and it stays there permanently.
+20. If anything looks stuck after setup, go to the Web tab and press
+    Reload once, then open the address again and log in.
+21. Log in as Owner and create the Manager and Client logins from
+    inside the system (Users section), exactly like the PC edition.
+
+--------------------------------------------------------------------
+ DAILY USE — SAME AS THE PC EDITION, WITH 3 SMALL DIFFERENCES
+--------------------------------------------------------------------
+- One-tap WhatsApp (wa.me) message buttons: work normally.
+- Automatic WhatsApp/SMS alerts: may fail on the free plan (fact #5).
+  Check the alert log inside the system; failed ones are shown there.
+- Biometric machine: use CSV import inside the system (fact #6).
+- Backups: the Backup page inside the system makes ZIP backups into
+  the MillData/Backups folder on the hosting account. Download one
+  every week from the Files tab and keep it on MEGA / Google Drive —
+  a backup that only lives on one website is not a real backup.
+
+ EVERY 3 MONTHS (set a phone reminder):
+    Web tab -> press "Run until 3 months from today". That is all.
+
+ IF THE SITE EVER SHOWS AN ERROR PAGE:
+    1. Web tab -> Reload button. Wait one minute, open the site again.
+    2. Still bad? Web tab -> "Error log" link — note the last date/time
+       and send that detail to whoever set the system up for you.
+    3. Your data cannot be harmed by Reload — it lives in MillData.
+====================================================================
